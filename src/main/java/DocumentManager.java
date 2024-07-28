@@ -15,9 +15,43 @@ import java.util.stream.Collectors;
  * Implementations should be in a single class
  * This class could be auto tested
  */
-public class DocumentManager {
 
-    // In-memory storage for documents
+public class DocumentManager {
+    /** public static void main(String[] args) {
+     * DocumentManager documentManager = new DocumentManager();
+
+        Author author = Author.builder()
+                .id("1")
+                .name("John Doe")
+                .build();
+
+        Document document = Document.builder()
+                .title("Sample Title")
+                .content("Sample Content")
+                .author(author)
+                .created(Instant.now())
+                .build();
+
+        Document savedDocument = documentManager.save(document);
+        System.out.println("Сохраненный документ: " + savedDocument);
+
+        Optional<Document> foundDocument = documentManager.findById(savedDocument.getId());
+        System.out.println("Найденный документ: " + foundDocument.orElse(null));
+
+        // Поиск документов с помощью запроса
+        SearchRequest request = SearchRequest.builder()
+                .titlePrefixes(Arrays.asList("Sample"))
+                .containsContents(Arrays.asList("Content"))
+                .authorIds(Arrays.asList("1"))
+                .createdFrom(Instant.now().minusSeconds(3600))
+                .createdTo(Instant.now().plusSeconds(3600))
+                .build();
+
+        List<Document> searchResults = documentManager.search(request);
+        System.out.println("Результаты поиска: " + searchResults);
+    }
+     */
+
     private final Map<String, Document> documents = new ConcurrentHashMap<>();
 
     /**
@@ -28,7 +62,6 @@ public class DocumentManager {
      * @return saved document
      */
     public Document save(Document document) {
-        // Generate a unique ID if the document doesn't have one
         if (document.getId() == null || document.getId().isEmpty()) {
             document.setId(UUID.randomUUID().toString());
         }
